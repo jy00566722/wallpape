@@ -1,56 +1,51 @@
-import React, {useState} from 'react';
-import {SafeAreaView} from 'react-native';
-import {
-  Provider,
-  Button,
-  Dialog,
-  DialogHeader,
-  DialogContent,
-  DialogActions,
-  Text,
-} from '@react-native-material/core';
+// In App.js in a new project
 
-const App = () => {
-  const [visible, setVisible] = useState(false);
+import * as React from 'react';
+import {Button, View, Text} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
+const Stack = createNativeStackNavigator();
+function HomeScreen({navigation}) {
   return (
-    <>
-      <SafeAreaView>
-        <Button
-          title="Open Alert Dialog"
-          // eslint-disable-next-line react-native/no-inline-styles
-          style={{margin: 16}}
-          onPress={() => setVisible(true)}
-        />
-        <Dialog visible={visible} onDismiss={() => setVisible(false)}>
-          <DialogHeader title="Dialog Header" />
-          <DialogContent>
-            <Text>这里是一段测试文本哟,哈哈哈哈哈,这是真的吗</Text>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              title="Cancel"
-              compact
-              variant="text"
-              onPress={() => setVisible(false)}
-            />
-            <Button
-              title="Ok"
-              compact
-              variant="text"
-              onPress={() => setVisible(false)}
-            />
-          </DialogActions>
-        </Dialog>
-      </SafeAreaView>
-    </>
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text>Home Screen</Text>
+      <Button title="转到关于" onPress={() => navigation.navigate('Details')} />
+    </View>
   );
-};
+}
 
-const AppProvider = () => (
-  <Provider>
-    <App />
-  </Provider>
-);
+function DetailsScreen({navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text>Details Screen</Text>
+      <Button
+        title="Go to Details... again"
+        onPress={() => navigation.push('Details')}
+      />
+      <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
+      <Button title="Go back" onPress={() => navigation.goBack()} />
+    </View>
+  );
+}
 
-export default AppProvider;
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{title: '主页'}}
+        />
+        <Stack.Screen
+          name="Details"
+          component={DetailsScreen}
+          options={{title: '关于'}}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+export default App;
