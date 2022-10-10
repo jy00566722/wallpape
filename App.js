@@ -1,51 +1,21 @@
-// In App.js in a new project
-
-import * as React from 'react';
-import {Button, View, Text} from 'react-native';
+import React from 'react';
+import {StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+// import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
-const Stack = createNativeStackNavigator();
-function HomeScreen({navigation}) {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Home Screen</Text>
-      <Button title="转到关于" onPress={() => navigation.navigate('Details')} />
-    </View>
-  );
-}
+// 获取路由
+import Router from './src/router/index';
 
-function DetailsScreen({navigation}) {
+const App = () => {
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Details Screen</Text>
-      <Button
-        title="Go to Details... again"
-        onPress={() => navigation.push('Details')}
-      />
-      <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
-      <Button title="Go back" onPress={() => navigation.goBack()} />
-    </View>
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <StatusBar hidden={true} translucent={true} />
+        <Router />
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
-}
-
-function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{title: '主页'}}
-        />
-        <Stack.Screen
-          name="Details"
-          component={DetailsScreen}
-          options={{title: '关于'}}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-}
+};
 
 export default App;
